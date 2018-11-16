@@ -70,19 +70,7 @@ public class PhotonTransformView : MonoBehaviour, IPunObservable
             return;
         }
 
-	    if (this.m_PhotonView.isMine == false)
-	    {
-          Debug.Log(message: "this.m_PhotonView.owner\n" + this.m_PhotonView.owner + "\n");
-          Debug.Log(message: "this.m_PhotonView.owner.NickName\n" + this.m_PhotonView.owner.NickName + "\n");
-	    }
-
-	      //########################################
-	      if (this.m_PhotonView.isMine == false)
-	      {
-		        transform.localPosition = new Vector3(2, 0, 0);
-	      }
-
-        //this.UpdatePosition();
+        this.UpdatePosition();
         this.UpdateRotation();
         this.UpdateScale();
     }
