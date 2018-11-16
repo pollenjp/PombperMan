@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c19781222bd86439a3567b7de37a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PhotonLobbySceneName: 
+  PhotonLobbySceneName: PhottonLobbyScene
   LoadSceneName: TwoPlayerScene
   SceneLoaderObject: {fileID: 1233304358503148, guid: 31b25c8419c7e0049bfdac88013b3cd0,
     type: 2}
