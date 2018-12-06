@@ -5091,6 +5091,8 @@ MonoBehaviour:
   CharJumpSeed: 5
   CharRotateSpeed: 10
   CharGravity: 20
+  CanDropBombs: 1
+  BombPrefab: {fileID: 124052, guid: 6291891f72f724c4eae6be6052e78735, type: 2}
 --- !u!114 &114209401784650976
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -7,6 +7,7 @@ public class GameManagerScript : MonoBehaviour
 {
   public string PhotonLobbySceneName;
   public GameObject PlayerPrefab;
+  public bool CanDestroyPlayer;
 
   // Use this for initialization
   private void Start()
@@ -32,6 +33,8 @@ public class GameManagerScript : MonoBehaviour
       position: new Vector3(0f, 0f, 0f),
       rotation: Quaternion.identity,
       group: 0);
+    player.name = PhotonNetwork.player.NickName;
+    Debug.Log(message: "=== player.name ===\n" + player.name + "\n");
   }
 
   // Update is called once per frame

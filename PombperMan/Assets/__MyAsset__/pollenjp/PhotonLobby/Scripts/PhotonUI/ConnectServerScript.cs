@@ -9,16 +9,12 @@ namespace PhotonUI
   public class ConnectServerScript : MonoBehaviour
   {
     public GameObject Menu1, Menu2;
-    
-    [SerializeField]
-    private Text PhotonMasterServerAddress;
-    [SerializeField]
-    private  Text PhotonMasterServerPort;
-    [SerializeField]
-    private  Text PhotonAppId;
-    [SerializeField]
-    private  Text GameVersion;
-    
+
+    [SerializeField] private Text PhotonMasterServerAddress;
+    [SerializeField] private Text PhotonMasterServerPort;
+    [SerializeField] private Text PhotonAppId;
+    [SerializeField] private Text GameVersion;
+
     //####################################################################################################
 
     #region MonoBehaviour callbacks
@@ -32,19 +28,22 @@ namespace PhotonUI
       Menu2.SetActive(value: true);
       Menu1.GetComponent<Canvas>().enabled = true;
       Menu2.GetComponent<Canvas>().enabled = false;
-      
+
       //
-      PhotonMasterServerAddress = UnityEngine.GameObject.Find(name: "PhotonMasterServerAddressInputField").transform.Find("Text").GetComponent<Text>();
-      PhotonMasterServerPort    = UnityEngine.GameObject.Find(name: "PhotonMasterServerPortInputField").transform.Find("Text").GetComponent<Text>();
-      PhotonAppId               = UnityEngine.GameObject.Find(name: "PhotonAppIdInputField").transform.Find("Text").GetComponent<Text>();
-      GameVersion               = UnityEngine.GameObject.Find(name: "GameVersionInputField").transform.Find("Text").GetComponent<Text>();
+      PhotonMasterServerAddress = UnityEngine.GameObject.Find(name: "PhotonMasterServerAddressInputField").transform
+        .Find("Text").GetComponent<Text>();
+      PhotonMasterServerPort = UnityEngine.GameObject.Find(name: "PhotonMasterServerPortInputField").transform
+        .Find("Text").GetComponent<Text>();
+      PhotonAppId = UnityEngine.GameObject.Find(name: "PhotonAppIdInputField").transform.Find("Text")
+        .GetComponent<Text>();
+      GameVersion = UnityEngine.GameObject.Find(name: "GameVersionInputField").transform.Find("Text")
+        .GetComponent<Text>();
     }
 
     //########################################
     // Update is called once per frame
     private void Update()
     {
-      
     }
 
     #endregion
@@ -52,28 +51,57 @@ namespace PhotonUI
     //####################################################################################################
     public void OnClick_ConnectServerButton()
     {
-      //PhotonNetwork.ConnectUsingSettings(gameVersion: "v1.0");
-      PhotonNetwork.ConnectToMaster(
-        masterServerAddress: PhotonMasterServerAddress.text,
-        port: int.Parse(PhotonMasterServerPort.text),
-        appID: PhotonAppId.text,
-        gameVersion: GameVersion.text);
-      //ChangeCanvas(canvasGameObject1: Menu1, canvasGameObject2: Menu2);
+      if (PhotonMasterServerAddress.text != ""){
+        //PhotonNetwork.ConnectUsingSettings(gameVersion: "v1.0");
+        PhotonNetwork.ConnectToMaster(
+          masterServerAddress: PhotonMasterServerAddress.text,
+          port: int.Parse(PhotonMasterServerPort.text),
+          appID: PhotonAppId.text,
+          gameVersion: GameVersion.text);
+        //ChangeCanvas(canvasGameObject1: Menu1, canvasGameObject2: Menu2);
+      }
+      else
+      {
+        PhotonNetwork.ConnectUsingSettings("v1.0");
+      }
     }
 
     //####################################################################################################
 
     #region Photon Callbacks
 
+    //####################
     private void OnConnectedToMaster()
     {
       PhotonNetwork.JoinLobby();
     }
-    
+
+    //####################
+    // AppId値
+    private void priOnFailedToConnectToPhoton()
+    {
+      Debug.Log(message: "=== priOnFailedToConnectToPhoton() ===\n");
+    }
+
+    //####################
+    // ネットワークの問題
+    private void OnFailedToConnectToPhoton()
+    {
+      Debug.Log(message: "=== OnFailedToConnectToPhoton() ===\n");
+    }
+
+    //####################
+    //DisconnectCause.InvalidRegion
+    private void OnConnectionFail()
+    {
+      Debug.Log(message: "=== OnConnectionFail() ===\n");
+    }
+
+    //########################################
     private void OnJoinedLobby()
     {
       ChangeCanvas(canvasGameObject1: Menu1, canvasGameObject2: Menu2);
-      
+
       //########################################
       //  入力情報の保存（次回入力省略）
       //  - player name
@@ -87,22 +115,24 @@ namespace PhotonUI
       Debug.Log(message: "=== SetPlayerName ===\n" + playerIdText.text + "\n");
       PhotonNetwork.playerName = playerIdText.text + " "; //今回ゲームで利用するプレイヤーの名前を設定
       Debug.Log(PhotonNetwork.player.NickName); //playerの名前の確認。（動作が確認できればこの行は消してもいい）
-      
+
       //########################################
       //  入力情報の保存（次回入力省略）
       //  - server ip
       //  - server port
       //  - appid
       //  - game version
-      GameObject[] connectServerInputFieldTag = UnityEngine.GameObject.FindGameObjectsWithTag(tag: "ConnectServerInputField");
+      GameObject[] connectServerInputFieldTag =
+        UnityEngine.GameObject.FindGameObjectsWithTag(tag: "ConnectServerInputField");
       foreach (var inputFieldGameObject in connectServerInputFieldTag)
       {
         var inputKeyword = inputFieldGameObject.GetComponent<InputFieldScript>().InputKeyword;
-        var inputValue   = inputFieldGameObject.transform.Find(n: "Text").gameObject.GetComponent<Text>().text;
+        var inputValue = inputFieldGameObject.transform.Find(n: "Text").gameObject.GetComponent<Text>().text;
         Debug.Log(message: "== inputKeyword ==\n" + inputKeyword + "\n");
         Debug.Log(message: "== inputValue.text ==\n" + playerIdText.text + "\n");
         UnityEngine.PlayerPrefs.SetString(key: inputKeyword, value: inputValue);
       }
+
       //PlayerPrefs.SetString(InputKeyword, value);
       Debug.Log(message: "== PhotonNetwork.isMasterClient ==\n" + PhotonNetwork.isMasterClient);
     }

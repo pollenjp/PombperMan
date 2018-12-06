@@ -1411,8 +1411,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1162221492}
   m_HandleRect: {fileID: 1162221491}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9996061
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1804,7 +1804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ea67f01432f0427ab0d2b4071e47296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JoinSceneName: WaitingRoomScene
+  JoinSceneName: WaitingRoomSceneV2
   RoomParent: {fileID: 1834131326}
   RoomElementPrefab: {fileID: 1301283531677500, guid: af8f5377ef0e59b4c9ca0229483cdbf8,
     type: 2}
@@ -4039,7 +4039,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 100.00001}
+  m_AnchoredPosition: {x: 0, y: 99.999954}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1834131328

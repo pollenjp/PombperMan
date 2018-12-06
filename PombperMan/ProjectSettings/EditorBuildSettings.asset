@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/__MyAsset__/pollenjp/PhotonLobby/Scenes/PhotonLobbyScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/__MyAsset__/pollenjp/PhotonLobby/Scenes/TwoPlayerScene.unity
-    guid: 03af279335f00f24ba5fe0c9174d3a74
-  - enabled: 1
+  - enabled: 0
     path: Assets/__MyAsset__/pollenjp/PhotonLobby/Scenes/WaitingRoomScene.unity
     guid: 8fe4dfe05b69d3c4a8cbcc68a6e3302e
   - enabled: 1
-    path: Assets/__MyAsset__/GameField/Scenes/Game.unity
-    guid: c01fc9d64c8a35947b92b09004d323e1
+    path: Assets/__MyAsset__/pollenjp/PhotonLobby/Scenes/WaitingRoomSceneV2.unity
+    guid: 65d2a3e3bb0b4f143a491be5a042d144
+  - enabled: 1
+    path: Assets/__MyAsset__/pollenjp/PhotonLobby/Scenes/TwoPlayerScene.unity
+    guid: 03af279335f00f24ba5fe0c9174d3a74
   m_configObjects: {}

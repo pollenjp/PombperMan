@@ -25,6 +25,14 @@ public class CharacterControlScript : MonoBehaviour
   public float CharJumpSeed = 5f;
   public float CharRotateSpeed = 10f;
   public float CharGravity = 20f;
+  
+  public bool CanDropBombs = true;
+  public GameObject BombPrefab;
+  public bool isDead = false;
+  
+  private GameObject _gameManagerObject;
+
+  private Transform _myTransform;
 
   Vector3 _charTargetDirection;
   Vector3 _charMoveVector = Vector3.zero;
@@ -33,19 +41,23 @@ public class CharacterControlScript : MonoBehaviour
   // Use this for initialization
   private void Start()
   {
+    _gameManagerObject = UnityEngine.GameObject.Find(name: "GameManager");
     // 自分のキャラクターならば
     if (MyPhotonView.isMine)
     {
       _mainCamera = Camera.main;
       _mainCamera.GetComponent<CameraScript>().ObjTarget = this.gameObject.transform;
     }
+
+    _myTransform = transform;
+
   }
 
   // Update is called once per frame
   private void Update()
   {
     if (!MyPhotonView.isMine) return;
-
+    
     MoveControl();
     RotationControl();
     CharController.Move(motion: _charMoveVector * Time.deltaTime);
@@ -53,6 +65,13 @@ public class CharacterControlScript : MonoBehaviour
     // スムーズな同期のためにPhotonTransformViewに速度値を渡す
     Vector3 velocity = CharController.velocity;
     MyPhotonTransformView.SetSynchronizedValues(speed: velocity, turnSpeed: 0);
+    
+    //
+    if (CanDropBombs && Input.GetKeyDown (KeyCode.Space))
+    { //Drop bomb
+      DropBomb ();
+    }
+
   }
 
   //####################################################################################################
@@ -74,10 +93,10 @@ public class CharacterControlScript : MonoBehaviour
     if (CharController.isGrounded)
     {
       _charMoveVector = _charTargetDirection * CharSpeed;
-      if (Input.GetButton("Jump"))
-      {
-        _charMoveVector.y = CharJumpSeed;
-      }
+//      if (Input.GetButton("Jump"))
+//      {
+//        _charMoveVector.y = CharJumpSeed;
+//      }
     }
     //##########
     // 地面にいないとき
@@ -113,4 +132,34 @@ public class CharacterControlScript : MonoBehaviour
       transform.rotation = Quaternion.LookRotation(forward: newDir);
     }
   }
+  
+  //####################################################################################################
+  private void DropBomb ()
+  {
+    if (BombPrefab)
+    { //Check if bomb prefab is assigned first
+      // Create new bomb and snap it to a tile
+//      Instantiate (BombPrefab,
+//        new Vector3 (Mathf.RoundToInt (_myTransform.position.x), BombPrefab.transform.position.y, Mathf.RoundToInt (_myTransform.position.z)),
+//        BombPrefab.transform.rotation);
+      GameObject player = PhotonNetwork.Instantiate(
+        prefabName: this.BombPrefab.name,
+        position: new Vector3(Mathf.RoundToInt(_myTransform.position.x),
+                              BombPrefab.transform.position.y,
+                              Mathf.RoundToInt(_myTransform.position.z)),
+        rotation: Quaternion.identity,
+        group: 0);
+    }
+  }
+  
+  public void OnTriggerEnter (Collider other)
+  {
+    if (_gameManagerObject.GetComponent<GameManagerScript>().CanDestroyPlayer && !isDead && other.CompareTag ("Explosion"))
+    { //Not dead & hit by explosion
+      Debug.Log ("P" + PhotonNetwork.player.NickName + " hit by explosion!");
+      isDead = true;
+      Destroy (gameObject);
+    }
+  }
 }
+
