@@ -45,7 +45,8 @@ namespace PhotonUI
     public void SetPlayerName(string value)
     {
       Debug.Log(message: "=== SetPlayerName ===\n" + value + "\n");
-      PhotonNetwork.playerName = value + " "; //今回ゲームで利用するプレイヤーの名前を設定
+      //PhotonNetwork.playerName = value + " "; //今回ゲームで利用するプレイヤーの名前を設定
+      PhotonNetwork.playerName = value; //今回ゲームで利用するプレイヤーの名前を設定
       PlayerPrefs.SetString(InputKeyword, value); //今回の名前をセーブ
       Debug.Log(PhotonNetwork.player.NickName); //playerの名前の確認。（動作が確認できればこの行は消してもいい）
     }

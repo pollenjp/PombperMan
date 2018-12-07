@@ -55,9 +55,9 @@ namespace PhotonUI
         //PhotonNetwork.ConnectUsingSettings(gameVersion: "v1.0");
         PhotonNetwork.ConnectToMaster(
           masterServerAddress: PhotonMasterServerAddress.text,
-          port: int.Parse(PhotonMasterServerPort.text),
-          appID: PhotonAppId.text,
-          gameVersion: GameVersion.text);
+          port               : int.Parse(PhotonMasterServerPort.text),
+          appID              : PhotonAppId.text,
+          gameVersion        : GameVersion.text);
         //ChangeCanvas(canvasGameObject1: Menu1, canvasGameObject2: Menu2);
       }
       else
@@ -114,7 +114,9 @@ namespace PhotonUI
       //SetPlayerName(value: playerIdText.text);
       Debug.Log(message: "=== SetPlayerName ===\n" + playerIdText.text + "\n");
       PhotonNetwork.playerName = playerIdText.text + " "; //今回ゲームで利用するプレイヤーの名前を設定
-      Debug.Log(PhotonNetwork.player.NickName); //playerの名前の確認。（動作が確認できればこの行は消してもいい）
+      
+      //playerの名前の確認。（動作が確認できればこの行は消してもいい）
+      Debug.Log(message: "=== PhotonNetwork.player.NickName ===\n" + PhotonNetwork.player.NickName + "\n");
 
       //########################################
       //  入力情報の保存（次回入力省略）
