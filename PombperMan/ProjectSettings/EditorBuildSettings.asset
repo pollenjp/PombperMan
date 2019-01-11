@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/__MyAsset__/Stage/SimpleStage.unity
     guid: 8767656836257b840b7a3e0be58dc918
+  - enabled: 1
+    path: Assets/__MyAsset__/Stage/IsekiStage.unity
+    guid: 24d453efd6a5cf44ca0741f7c2893bc0
+  - enabled: 1
+    path: Assets/__MyAsset__/Stage/TreeDesertStage.unity
+    guid: 1ebd0f24c2edb4048a9f3820734442c9
   m_configObjects: {}

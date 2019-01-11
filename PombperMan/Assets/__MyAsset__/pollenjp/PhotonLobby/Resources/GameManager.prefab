@@ -9,51 +9,49 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1424319395771672}
+  m_RootGameObject: {fileID: 1084173198671516}
   m_IsPrefabAsset: 1
---- !u!1 &1424319395771672
+--- !u!1 &1084173198671516
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4427785304911372}
-  - component: {fileID: 114560658958277548}
+  - component: {fileID: 4612850535175864}
+  - component: {fileID: 114502302099393160}
   m_Layer: 0
-  m_Name: StartManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4427785304911372
+--- !u!4 &4612850535175864
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1424319395771672}
+  m_GameObject: {fileID: 1084173198671516}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 273.5, y: 154, z: 0}
+  m_LocalPosition: {x: -0.1352962, y: 0.74380225, z: -0.17252788}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114560658958277548
+--- !u!114 &114502302099393160
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1424319395771672}
+  m_GameObject: {fileID: 1084173198671516}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65c19781222bd86439a3567b7de37a84, type: 3}
+  m_Script: {fileID: 11500000, guid: 736f34b6cf3771641a440f9e4d172e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   PhotonLobbySceneName: PhotonLobbyScene
-  LoadSceneName: TwoPlayerScene
-  SceneLoaderObject: {fileID: 1233304358503148, guid: 31b25c8419c7e0049bfdac88013b3cd0,
+  PlayerPrefab: {fileID: 1747225849058856, guid: 1ad2339ed88ceed4f8a9e8158d10cd15,
     type: 2}
-  PlayInfoPanelGameObject: {fileID: 0}
-  UserNameListText: {fileID: 0}
+  CanDestroyPlayer: 1

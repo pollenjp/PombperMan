@@ -1577,7 +1577,11 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: MoriStage
       m_Image: {fileID: 0}
-    - m_Text: Option C
+    - m_Text: IsekiStage
+      m_Image: {fileID: 0}
+    - m_Text: TreeDesertStage
+      m_Image: {fileID: 0}
+    - m_Text: LavaStage
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1746,8 +1750,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1162221492}
   m_HandleRect: {fileID: 1162221491}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.999955
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
