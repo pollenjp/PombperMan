@@ -11,13 +11,19 @@ namespace PhotonUI
     public Text RoomName; //部屋名
     public Text PlayerNumber; //人数
     public Text RoomCreator; //部屋作成者名
+    public Text StageName; //ステージ名
 
     //入室ボタン_roomName格納用
     private string _roomName;
 
     //####################################################################################################
     // GetRoomListからRoom情報をRoomElementにセットしていくための関数
-    public void SetRoomInfo(string roomName, int playerNumber, int maxPlayer, string roomCreator)
+    public void SetRoomInfo(
+      string roomName,
+      int playerNumber,
+      int maxPlayer,
+      string roomCreator,
+      string stageName)
     {
       Debug.Log(message: "=== SetRoomInfo ===");
       //入室ボタン用_roomName取得
@@ -25,6 +31,7 @@ namespace PhotonUI
       RoomName.text = "部屋名：" + roomName;
       PlayerNumber.text = "人　数：" + playerNumber + "/" + maxPlayer;
       RoomCreator.text = "作成者：" + roomCreator;
+      StageName.text = "ステージ名：" + stageName;
     }
 
     //########################################

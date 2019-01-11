@@ -15,10 +15,12 @@ namespace PhotonUI
     //部屋作成ウインドウ
     public GameObject RoomInfoPanel;
     public GameObject CreateRoomPanel; //部屋作成ウインドウ
-    public Text RoomNameText; //作成する部屋名
-    public Slider PlayerNumberSlider; //最大入室可能人数用Slider
-    public Text PlayerNumberText; //最大入室可能人数表示用Text
-    public Button CreateRoomButton; //部屋作成ボタン
+    public Text RoomNameText;          //作成する部屋名
+    public Slider PlayerNumberSlider;  //最大入室可能人数用Slider
+    public Text PlayerNumberText;      //最大入室可能人数表示用Text
+    //public Text StageNameText;         //ステージ名用Text
+    public Dropdown StageNameDropdown; //ステージ名用Text
+    public Button CreateRoomButton;    //部屋作成ボタン
 
     #endregion
 
@@ -31,7 +33,7 @@ namespace PhotonUI
     public void OnClick_OpenRoomPanelButton()
     {
       // 部屋作成ウインドウが表示していれば => 部屋作成ウインドウを非表示に
-      // そうでなければ                    => 部屋作成ウインドウを表示
+      // そうでなければ                  => 部屋作成ウインドウを表示
       if (CreateRoomPanel.activeSelf)
       {
         CreateRoomPanel.SetActive(false);
@@ -40,6 +42,13 @@ namespace PhotonUI
       {
         CreateRoomPanel.SetActive(true);
       }
+    }
+
+    //########################################
+    // CreateRoomPanelのStageNameドロップダウンの値更新時の処理
+    public void ChangeColor(Dropdown dropdown)
+    {
+      return;
     }
 
     //########################################
@@ -54,6 +63,8 @@ namespace PhotonUI
     //部屋作成ボタンを押したときの処理
     public void OnClick_CreateRoomButton()
     {
+      Debug.Log("===========================\n" + 
+                "OnClick_CreateRoomButton()");
       //####################
       //作成する部屋の設定
       RoomOptions roomOptions = new RoomOptions();
@@ -61,23 +72,34 @@ namespace PhotonUI
       roomOptions.IsOpen = true; //他のプレイヤーの入室を許可する
       roomOptions.MaxPlayers = (byte) PlayerNumberSlider.value; //入室可能人数を設定
       //ルームカスタムプロパティで部屋作成者を表示させるため、作成者の名前を格納
+      Debug.Log("\n=== " + "roomOptions.MaxPlayers: " + roomOptions.MaxPlayers + "\n");
+      Debug.Log("\n=== " + "RoomCreator: " + PhotonNetwork.playerName + "\n");
+      Debug.Log("\n=== " + "StageName  : " + StageNameDropdown.options[StageNameDropdown.value].text + "\n");
+      Debug.Log("\n=== " + "StageName  : " + StageNameDropdown.options[StageNameDropdown.value].text + "\n");
       roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
       {
-        {"RoomCreator", PhotonNetwork.playerName}
+        {"RoomCreator", PhotonNetwork.playerName},
+        {"StageName"  , StageNameDropdown.options[StageNameDropdown.value].text},
+        {"IsReady"    , "0"},
       };
-      Debug.Log(message: "=== PhotonNetwork.playerName ===\n" + PhotonNetwork.playerName);
+      Debug.Log(message: "\n=== PhotonNetwork.playerName ===\n" + PhotonNetwork.playerName);
       //####################
       //ロビーにカスタムプロパティの情報を表示させる
       roomOptions.CustomRoomPropertiesForLobby = new string[]
       {
         "RoomCreator",
+        "StageName",
+        "IsReady",
       };
       //部屋作成
       // - PhotonNetwork.CreateRoom
       //     https://doc-api.photonengine.com/en/pun/current/class_photon_network.html#a08435c2d064fd6a85e51e1520e5a63d8
       //     When successful, this calls the callbacks OnCreatedRoom and OnJoinedRoom
       //     (the latter, cause you join as first player).  <-- Creator have to join the room.
-      PhotonNetwork.CreateRoom(roomName: RoomNameText.text, roomOptions: roomOptions, typedLobby: null);
+      PhotonNetwork.CreateRoom(
+        roomName: RoomNameText.text,
+        roomOptions: roomOptions,
+        typedLobby: null);
       //PhotonNetwork.JoinOrCreateRoom(roomName: RoomNameText.text, roomOptions: roomOptions, typedLobby: null);
 
       // パネル切り替え

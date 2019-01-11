@@ -14,7 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/__MyAsset__/pollenjp/PhotonLobby/Scenes/WaitingRoomSceneV2.unity
     guid: 65d2a3e3bb0b4f143a491be5a042d144
-  - enabled: 1
+  - enabled: 0
     path: Assets/__MyAsset__/pollenjp/PhotonLobby/Scenes/TwoPlayerScene.unity
     guid: 03af279335f00f24ba5fe0c9174d3a74
+  - enabled: 1
+    path: Assets/__MyAsset__/Stage/MoriStage.unity
+    guid: fc393e52290dca447b7f2906f8c23662
+  - enabled: 1
+    path: Assets/__MyAsset__/Stage/SimpleStage.unity
+    guid: 8767656836257b840b7a3e0be58dc918
   m_configObjects: {}

@@ -9,7 +9,7 @@ namespace PhotonUI
   public class LobbyManagerScript : Photon.MonoBehaviour
   {
     #region Public Variables
-    
+
     // JoinRoom後のScene
     public string JoinSceneName;
 
@@ -67,18 +67,37 @@ namespace PhotonUI
       //ルームがあればRoomElementでそれぞれのルーム情報を表示
       for (int i = 0; i < roomInfo.Length; i++)
       {
-        Debug.Log(roomInfo[i].Name + " : " + roomInfo[i].Name + "–" + roomInfo[i].PlayerCount + " / " +
-                  roomInfo[i].MaxPlayers /*+ roomInfo[i].CustomProperties["roomCreator"].ToString()*/);
+        Debug.Log("====================\n" +
+                  "roomInfo[i].Name:" + roomInfo[i].Name + ", " +
+                  "roomInfo[i].PlayerCount / roomInfo[i].MaxPlayers : " +
+                  roomInfo[i].PlayerCount + " / " + roomInfo[i].MaxPlayers
+          //+ roomInfo[i].CustomProperties["roomCreator"].ToString()
+        );
 
         //ルーム情報表示用RoomElementを生成
+        Debug.Log("\n=== roomElement = GameObject.Instantiate(RoomElementPrefab); ===\n");
         GameObject roomElement = GameObject.Instantiate(RoomElementPrefab);
 
         //RoomElementをcontentの子オブジェクトとしてセット    
+        Debug.Log("\n=== roomElement.transform.SetParent(RoomParent.transform); ===\n");
         roomElement.transform.SetParent(RoomParent.transform);
+        ////////////////////////////////////////
+        Debug.Log("\n=== roomInfo[i].Name:" + roomInfo[i].Name + " ===\n");
+        Debug.Log("\n=== roomInfo[i].PlayerCount:" + roomInfo[i].PlayerCount + " ===\n");
+        Debug.Log("\n=== roomInfo[i].MaxPlayers:" + roomInfo[i].MaxPlayers + " ===\n");
+        Debug.Log("\n=== roomInfo[i].CustomProperties[\"RoomCreator\"].ToString():" +
+                  roomInfo[i].CustomProperties["RoomCreator"].ToString() + " ===\n");
+        Debug.Log("\n=== roomInfo[i].CustomProperties[\"StageName\"].ToString():" +
+                  roomInfo[i].CustomProperties["StageName"].ToString() + " ===\n");
+        ////////////////////////////////////////
         //RoomElementにルーム情報をセット
         roomElement.GetComponent<RoomElementScript>().SetRoomInfo(
-          roomName: roomInfo[i].Name, playerNumber: roomInfo[i].PlayerCount, maxPlayer: roomInfo[i].MaxPlayers,
-          roomCreator: roomInfo[i].CustomProperties["RoomCreator"].ToString());
+          roomName: roomInfo[i].Name,
+          playerNumber: roomInfo[i].PlayerCount,
+          maxPlayer: roomInfo[i].MaxPlayers,
+          roomCreator: roomInfo[i].CustomProperties["RoomCreator"].ToString(),
+          stageName: roomInfo[i].CustomProperties["StageName"].ToString()
+        );
       }
     }
 
@@ -110,18 +129,28 @@ namespace PhotonUI
     //########################################
     private void OnCreatedRoom()
     {
-      Debug.Log(message:
-        "=== OnCreatedRoom ===\n"
-        + "== PhotonNetwork.isMasterClient == : " + PhotonNetwork.isMasterClient + "\n");
+      Debug.Log(
+        message: "====================\n" +
+                 "=== OnCreatedRoom ===\n" +
+                 "== PhotonNetwork.isMasterClient == : " +
+                 PhotonNetwork.isMasterClient + "\n");
     }
 
     //##########
     private void OnJoinedRoom()
     {
-      Debug.Log(message:
-        "=== OnJoinedRoom ===\n"
-        + "== PhotonNetwork.isMasterClient == : " + PhotonNetwork.isMasterClient + "\n");
-      UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName: JoinSceneName);
+      Debug.Log(
+        message: "====================\n" +
+                 "=== OnJoinedRoom ===\n" +
+                 "=== PhotonNetwork.isMasterClient == : " +
+                 PhotonNetwork.isMasterClient + "\n" +
+                 "=== PhotonNetwork.room.CustomProperties[\"StageName\"].ToString() == : " +
+                 PhotonNetwork.room.CustomProperties["StageName"].ToString() + "\n"
+      );
+
+      //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName: JoinSceneName);
+      UnityEngine.SceneManagement.SceneManager.LoadScene(
+        sceneName: PhotonNetwork.room.CustomProperties["StageName"].ToString());
     }
 
     //########################################
