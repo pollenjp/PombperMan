@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using ExitGames.UtilityScripts;
 using UnityEngine;
+using UnityEngineInternal.Input;
 using WaitStart;
 
 public class WaitingRoomCanvasScript : MonoBehaviour
 {
+  //public GameObject StartManagerGameObject;
 
   private string LoadSceneName;
   private PhotonView m_photonView = null;
@@ -18,17 +20,21 @@ public class WaitingRoomCanvasScript : MonoBehaviour
   // Use this for initialization
   void Start()
   {
-    if (PhotonNetwork.room.CustomProperties["IsReady"].ToString() == "0")
-    {
-      PhotonNetwork.player.SetCustomProperties(
-        new ExitGames.Client.Photon.Hashtable()
-        {
-          {"IsReady", "0"}
-        }
-      );
-    }
+//    if (PhotonNetwork.room.CustomProperties["IsReady"].ToString() == "0")
+//    {
+//      PhotonNetwork.player.SetCustomProperties(
+//        new ExitGames.Client.Photon.Hashtable()
+//        {
+//          {"IsReady", "0"}
+//        }
+//      );
+//    }
 
-    LoadSceneName = UnityEngine.GameObject.Find(name: "StartManager").GetComponent<StartManagerScript>().LoadSceneName;
+    //LoadSceneName = UnityEngine.GameObject.Find(name: "StartManager").GetComponent<StartManagerScript>().LoadSceneName;
+    if (PhotonNetwork.room.CustomProperties["IsReady"].ToString() == "1")
+    {
+      GameObject.Find(name: "StartButton").SetActive(value: false);
+    }
   }
 
   // Update is called once per frame
@@ -42,23 +48,47 @@ public class WaitingRoomCanvasScript : MonoBehaviour
   {
     Debug.Log(message: "=== OnClick_StartButton ===\n");
     ////////////////////////////////////////
+    ////////////////////////////////////////
     var player = PhotonNetwork.player;
     var cp = player.CustomProperties;
     cp["IsReady"] = "1";
     player.SetCustomProperties(cp);
     ////////////////////////////////////////
+    ////////////////////////////////////////
     if (CheckAllPlayerIsReady())
     {
-      ////////////////////////////////////////
       m_photonView.RPC(methodName: "LoadScene", target: PhotonTargets.All);
     }
     else
     {
       Debug.Log("=== ほかの人がスタートを押すのを待っています ===\n");
+      m_photonView.RPC(methodName: "PunUpdatePlayerNameList", target: PhotonTargets.All);
     }
+
   }
 
   #endregion
+
+  public void UpdatePlayerOrder()
+  {
+    m_photonView.RPC(methodName: "PunUpdatePlayerOrder", target: PhotonTargets.All);
+  }
+
+  [PunRPC]
+  private void PunUpdatePlayerOrder()
+  {
+    UnityEngine.GameObject.Find(name: "InfoCanvas").GetComponent<StartManagerScript>().UpdatePlayerOrderList();
+  }
+
+  [PunRPC]
+  public void PunUpdatePlayerNameList()
+  {
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // Update Player Info Text
+    //StartManagerGameObject.GetComponent<StartManagerScript>().UpdatePlayerList();
+    UnityEngine.GameObject.Find(name: "InfoCanvas").GetComponent<StartManagerScript>().UpdatePlayerList();
+  }
 
   [PunRPC]
   private void LoadScene()
@@ -66,8 +96,16 @@ public class WaitingRoomCanvasScript : MonoBehaviour
     // エフェクトを生成
     // 適当な時間が経過したら消すように設定.
     //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName: LoadSceneName);
-    UnityEngine.SceneManagement.SceneManager.LoadScene(
-      sceneName: PhotonNetwork.room.CustomProperties["StageName"].ToString());
+//    UnityEngine.SceneManagement.SceneManager.LoadScene(
+//      sceneName: PhotonNetwork.room.CustomProperties["StageName"].ToString());
+
+    ////////////////////////////////////////
+    // - 現在のSceneの再読み込みをスマートなコードで書く - ぱふの自由帳
+    //   - http://pafu-of-duck.hatenablog.com/entry/2017/10/08/215131
+    // 現在のScene名を取得する
+    var loadScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+    // Sceneの読み直し
+    UnityEngine.SceneManagement.SceneManager.LoadScene(loadScene.name);
   }
 
   private bool CheckAllPlayerIsReady()

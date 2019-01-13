@@ -15,12 +15,14 @@ namespace PhotonUI
     //部屋作成ウインドウ
     public GameObject RoomInfoPanel;
     public GameObject CreateRoomPanel; //部屋作成ウインドウ
-    public Text RoomNameText;          //作成する部屋名
-    public Slider PlayerNumberSlider;  //最大入室可能人数用Slider
-    public Text PlayerNumberText;      //最大入室可能人数表示用Text
+    public Text RoomNameText; //作成する部屋名
+    public Slider PlayerNumberSlider; //最大入室可能人数用Slider
+
+    public Text PlayerNumberText; //最大入室可能人数表示用Text
+
     //public Text StageNameText;         //ステージ名用Text
     public Dropdown StageNameDropdown; //ステージ名用Text
-    public Button CreateRoomButton;    //部屋作成ボタン
+    public Button CreateRoomButton; //部屋作成ボタン
 
     #endregion
 
@@ -63,7 +65,7 @@ namespace PhotonUI
     //部屋作成ボタンを押したときの処理
     public void OnClick_CreateRoomButton()
     {
-      Debug.Log("===========================\n" + 
+      Debug.Log("===========================\n" +
                 "OnClick_CreateRoomButton()");
       //####################
       //作成する部屋の設定
@@ -79,8 +81,8 @@ namespace PhotonUI
       roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
       {
         {"RoomCreator", PhotonNetwork.playerName},
-        {"StageName"  , StageNameDropdown.options[StageNameDropdown.value].text},
-        {"IsReady"    , "0"},
+        {"StageName", StageNameDropdown.options[StageNameDropdown.value].text},
+        {"IsReady", "0"},
       };
       Debug.Log(message: "\n=== PhotonNetwork.playerName ===\n" + PhotonNetwork.playerName);
       //####################
@@ -101,6 +103,18 @@ namespace PhotonUI
         roomOptions: roomOptions,
         typedLobby: null);
       //PhotonNetwork.JoinOrCreateRoom(roomName: RoomNameText.text, roomOptions: roomOptions, typedLobby: null);
+
+      ////////////////////////////////////////
+      // initialize player properties
+      PhotonNetwork.player.SetCustomProperties(
+        new ExitGames.Client.Photon.Hashtable()
+        {
+          {"IsReady", "0"},
+          {"IsDead", "0"},
+          {"DeadUtcTime", "9999"},
+        }
+      );
+
 
       // パネル切り替え
       CreateRoomPanel.SetActive(value: false);

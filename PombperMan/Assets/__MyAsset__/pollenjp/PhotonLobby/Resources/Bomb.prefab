@@ -273,6 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427dedfdc1806f841a6be2c00394f68d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplosionRange: 2
   explosionSound: {fileID: 8300000, guid: a0d438c128020ae419d43d4499594a46, type: 3}
   explosionPrefab: {fileID: 177540, guid: 69dfce71c987ee94ebd40421847e3c8e, type: 2}
   levelMask:

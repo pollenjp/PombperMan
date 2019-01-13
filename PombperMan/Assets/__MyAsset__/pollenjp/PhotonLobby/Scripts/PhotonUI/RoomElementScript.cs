@@ -40,6 +40,19 @@ namespace PhotonUI
     {
       //_roomNameの部屋に入室
       Debug.Log(message: "=== GetRoomList() ===\n" + PhotonNetwork.GetRoomList()[0] + "\n");
+
+      ////////////////////////////////////////
+      // initialize player properties
+      PhotonNetwork.player.SetCustomProperties(
+        new ExitGames.Client.Photon.Hashtable()
+        {
+          {"IsReady", "0"},
+          {"IsDead", "0"},
+          {"DeadUtcTime", "9999"},
+        }
+      );
+
+      //////////////////
       PhotonNetwork.JoinRoom(_roomName);
     }
 

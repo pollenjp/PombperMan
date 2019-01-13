@@ -147,7 +147,7 @@ namespace PhotonUI
                  "=== PhotonNetwork.room.CustomProperties[\"StageName\"].ToString() == : " +
                  PhotonNetwork.room.CustomProperties["StageName"].ToString() + "\n"
       );
-
+      
       //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName: JoinSceneName);
       UnityEngine.SceneManagement.SceneManager.LoadScene(
         sceneName: PhotonNetwork.room.CustomProperties["StageName"].ToString());

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TwoPlayer;
 using UnityEngine;
+using WaitStart;
 
 public class CharacterControlScript : MonoBehaviour
 {
@@ -25,11 +27,11 @@ public class CharacterControlScript : MonoBehaviour
   public float CharJumpSeed = 5f;
   public float CharRotateSpeed = 10f;
   public float CharGravity = 20f;
-  
+
   public bool CanDropBombs = true;
   public GameObject BombPrefab;
   public bool isDead = false;
-  
+
   private GameObject _gameManagerObject;
 
   private Transform _myTransform;
@@ -50,14 +52,13 @@ public class CharacterControlScript : MonoBehaviour
     }
 
     _myTransform = transform;
-
   }
 
   // Update is called once per frame
   private void Update()
   {
     if (!MyPhotonView.isMine) return;
-    
+
     MoveControl();
     RotationControl();
     CharController.Move(motion: _charMoveVector * Time.deltaTime);
@@ -65,13 +66,13 @@ public class CharacterControlScript : MonoBehaviour
     // スムーズな同期のためにPhotonTransformViewに速度値を渡す
     Vector3 velocity = CharController.velocity;
     MyPhotonTransformView.SetSynchronizedValues(speed: velocity, turnSpeed: 0);
-    
-    //
-    if (CanDropBombs && Input.GetKeyDown (KeyCode.Space))
-    { //Drop bomb
-      DropBomb ();
-    }
 
+    //
+    if (CanDropBombs && Input.GetKeyDown(KeyCode.Space))
+    {
+      //Drop bomb
+      DropBomb();
+    }
   }
 
   //####################################################################################################
@@ -132,12 +133,13 @@ public class CharacterControlScript : MonoBehaviour
       transform.rotation = Quaternion.LookRotation(forward: newDir);
     }
   }
-  
+
   //####################################################################################################
-  private void DropBomb ()
+  private void DropBomb()
   {
     if (BombPrefab)
-    { //Check if bomb prefab is assigned first
+    {
+      //Check if bomb prefab is assigned first
       // Create new bomb and snap it to a tile
 //      Instantiate (BombPrefab,
 //        new Vector3 (Mathf.RoundToInt (_myTransform.position.x), BombPrefab.transform.position.y, Mathf.RoundToInt (_myTransform.position.z)),
@@ -145,21 +147,54 @@ public class CharacterControlScript : MonoBehaviour
       GameObject player = PhotonNetwork.Instantiate(
         prefabName: this.BombPrefab.name,
         position: new Vector3(Mathf.RoundToInt(_myTransform.position.x),
-                              BombPrefab.transform.position.y,
-                              Mathf.RoundToInt(_myTransform.position.z)),
+          BombPrefab.transform.position.y,
+          Mathf.RoundToInt(_myTransform.position.z)),
         rotation: Quaternion.identity,
         group: 0);
     }
   }
-  
-  public void OnTriggerEnter (Collider other)
+
+  public void OnTriggerEnter(Collider other)
   {
-    if (_gameManagerObject.GetComponent<GameManagerScript>().CanDestroyPlayer && !isDead && other.CompareTag ("Explosion"))
-    { //Not dead & hit by explosion
-      Debug.Log ("P" + PhotonNetwork.player.NickName + " hit by explosion!");
+    if (_gameManagerObject.GetComponent<GameManagerScript>().CanDestroyPlayer
+        && !isDead
+        && other.CompareTag("Explosion"))
+    {
+      //Not dead & hit by explosion
+      Debug.Log("P" + PhotonNetwork.player.NickName + " hit by explosion!");
       isDead = true;
-      Destroy (gameObject);
+      //EndBattleCanvas.SetActive(value: true);
+      //UnityEngine.GameObject.Find(name: "EndBattleCanvas").SetActive(value: true);
+      ////////////////////////////////////////
+      var player = PhotonNetwork.player;
+      var cp = player.CustomProperties;
+      cp["IsDead"] = "1";
+      cp["DeadUtcTime"] = DateTime.UtcNow.ToString();
+      player.SetCustomProperties(cp);
+      ////////////////////////////////////////
+      if (MyPhotonView.isMine)
+      {
+        UnityEngine.GameObject.Find(name: "InfoCanvas").GetComponent<StartManagerScript>().ActivateEndBattleCanvas();
+      }
+//      else
+//      {
+//        var photonPlayerList = PhotonNetwork.otherPlayers;
+//        for (int i = 0; i < photonPlayerList.Length; i++)
+//        {
+//          if (photonPlayerList[i].CustomProperties["isDead"].ToString() == "0")
+//          {
+//            break;
+//          }
+//
+//          UnityEngine.GameObject.Find(name: "InfoCanvas").GetComponent<StartManagerScript>().ActivateEndBattleCanvas();
+//        }
+//      }
+
+      UnityEngine.GameObject.Find(name: "WaitingRoomCanvasPrefab(Clone)").GetComponent<WaitingRoomCanvasScript>()
+        .UpdatePlayerOrder();
+
+      ////////////////////////////////////////
+      Destroy(gameObject);
     }
   }
 }
-

@@ -10,10 +10,10 @@ namespace TwoPlayer
     private const float YAngle_MAX = 89.0f; //カメラのY方向の最大角度
 
     public Transform ObjTarget; //追跡するオブジェクトのtransform
-    public Vector3 ObjOffset = new Vector3(0, 1, 0); //追跡対象の中心位置調整用オフセット
+    public Vector3 ObjOffset = new Vector3(0f, 1.0f, 0f); //追跡対象の中心位置調整用オフセット
     private Vector3 _lookAt; //targetとoffsetによる注視する座標
 
-    [SerializeField] public float CameraPosY = 1.0f;
+    [SerializeField] public float CameraPosY = 1f;
 
     [SerializeField] private float _charaCameraDistance = 3.0f; //キャラクターとカメラ間の距離
     private float _distance_min = 1.0f; //キャラクターとの最小距離
