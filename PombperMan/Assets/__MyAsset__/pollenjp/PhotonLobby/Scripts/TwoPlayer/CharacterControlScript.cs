@@ -166,14 +166,17 @@ public class CharacterControlScript : MonoBehaviour
       //EndBattleCanvas.SetActive(value: true);
       //UnityEngine.GameObject.Find(name: "EndBattleCanvas").SetActive(value: true);
       ////////////////////////////////////////
-      var player = PhotonNetwork.player;
-      var cp = player.CustomProperties;
-      cp["IsDead"] = "1";
-      cp["DeadUtcTime"] = DateTime.UtcNow.ToString();
-      player.SetCustomProperties(cp);
-      ////////////////////////////////////////
       if (MyPhotonView.isMine)
       {
+        ////////////////////////////////////////
+        // Update IsDead property
+        var player = PhotonNetwork.player;
+        var cp = player.CustomProperties;
+        cp["IsDead"] = "1";
+        cp["DeadUtcTime"] = DateTime.UtcNow.ToString();
+        player.SetCustomProperties(cp);
+        ////////////////////////////////////////
+        // Destroy Player
         UnityEngine.GameObject.Find(name: "InfoCanvas").GetComponent<StartManagerScript>().ActivateEndBattleCanvas();
       }
 //      else

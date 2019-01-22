@@ -35,6 +35,7 @@ using System.Runtime.CompilerServices;
 
 public class Bomb : MonoBehaviour
 {
+    public int ExplosionRange;
     public AudioClip explosionSound;
     public GameObject explosionPrefab;
     public LayerMask levelMask;
@@ -78,7 +79,7 @@ public class Bomb : MonoBehaviour
 
     private IEnumerator CreateExplosions (Vector3 direction)
     {
-        for (int i = 1; i < 3; i++)
+        for (int i = 1; i < ExplosionRange; i++)
         { //The 3 here dictates how far the raycasts will check, in this case 3 tiles far
             RaycastHit hit; //Holds all information about what the raycast hits
 

@@ -95,13 +95,15 @@ namespace WaitStart
       {
         Debug.Log(message: "====================\n" +
                            "UpdatePlayerOrderList()\n\n");
-        PlayerOrderText.text = "Order | User Name\n";
+        PlayerOrderText.text = "Rank | User Name\n";
         var photonPlayerList = PhotonNetwork.playerList;
+
         System.Array.Sort(
           photonPlayerList,
           (instance1, instance2) =>
             instance1.CustomProperties["DeadUtcTime"].ToString().CompareTo(
               instance2.CustomProperties["DeadUtcTime"].ToString()));
+
         var length = photonPlayerList.Length;
         for (int i = length - 1; i >= 0; i--)
         {
@@ -111,13 +113,17 @@ namespace WaitStart
                     photonPlayerList[i].CustomProperties["DeadUtcTime"].ToString());
           if (photonPlayerList[i].CustomProperties["IsDead"].ToString() == "0")
           {
+            Debug.Log("====================\n" +
+                      "PlayerOrderPanel : IsDead = 0");
             //PlayerOrderText.text = "Order | User Name\n";
-            PlayerOrderText.text += "          | " + photonPlayerList[i].NickName + "\n";
+            PlayerOrderText.text += "         | " + photonPlayerList[i].NickName + "\n";
           }
           else
           {
+            Debug.Log("====================\n" +
+                      "PlayerOrderPanel : IsDead = 1");
             //PlayerOrderText.text = "Order | User Name\n";
-            PlayerOrderText.text += (length-i).ToString() + "        | " + photonPlayerList[i].NickName + "\n";
+            PlayerOrderText.text += "      " + (length - i).ToString() + " | " + photonPlayerList[i].NickName + "\n";
           }
         }
       }

@@ -34,6 +34,10 @@ public class GameManagerScript : MonoBehaviour
         CanDestroyPlayer = false;
         break;
       case "1":
+        // 自分のオブジェクトを消去
+        PhotonNetwork.DestroyPlayerObjects(targetPlayer: PhotonNetwork.player);
+
+        // キャラクターの死亡判定あり
         CanDestroyPlayer = true;
         break;
       default:

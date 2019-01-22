@@ -93,12 +93,6 @@ public class WaitingRoomCanvasScript : MonoBehaviour
   [PunRPC]
   private void LoadScene()
   {
-    // エフェクトを生成
-    // 適当な時間が経過したら消すように設定.
-    //UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName: LoadSceneName);
-//    UnityEngine.SceneManagement.SceneManager.LoadScene(
-//      sceneName: PhotonNetwork.room.CustomProperties["StageName"].ToString());
-
     ////////////////////////////////////////
     // - 現在のSceneの再読み込みをスマートなコードで書く - ぱふの自由帳
     //   - http://pafu-of-duck.hatenablog.com/entry/2017/10/08/215131
